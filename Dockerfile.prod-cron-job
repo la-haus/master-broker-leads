@@ -1,0 +1,25 @@
+FROM 044846299318.dkr.ecr.us-east-1.amazonaws.com/go-golden:prod-1.2 AS builder
+
+WORKDIR /go/src/github.com/la-haus/customer-platform
+
+ARG GITHUB_ACCESS_TOKEN
+RUN go env -w GOPRIVATE="github.com/la-haus/*" && \
+    git config --global url."https://${GITHUB_ACCESS_TOKEN}:x-oauth-basic@github.com/la-haus/".insteadOf "https://github.com/la-haus/"
+
+COPY ./go.* ./
+
+RUN go mod download
+
+COPY . .
+
+RUN GOOS=linux go build -a -tags musl -installsuffix cgo -o first-touch-job github.com/la-haus/customer-platform/cmd/findFirstTouchJob/
+
+FROM 044846299318.dkr.ecr.us-east-1.amazonaws.com/alpine-golden:prod-1.1
+
+WORKDIR /usr/
+
+COPY ./configs/envs.yml ./configs/
+
+COPY --from=builder /go/src/github.com/la-haus/customer-platform/first-touch-job .
+
+CMD /usr/first-touch-job
