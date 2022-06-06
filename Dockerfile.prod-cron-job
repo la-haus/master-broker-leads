@@ -1,6 +1,6 @@
 FROM 044846299318.dkr.ecr.us-east-1.amazonaws.com/go-golden:prod-1.2 AS builder
 
-WORKDIR /go/src/github.com/la-haus/master-broker-leads
+WORKDIR /go/src/github.com/la-haus/master-brokers-charge-leads
 
 #ARG GITHUB_ACCESS_TOKEN
 #RUN go env -w GOPRIVATE="github.com/la-haus/*" && \
@@ -12,7 +12,7 @@ RUN go mod download
 
 COPY . .
 
-RUN GOOS=linux go build -a -tags musl -installsuffix cgo -o charge-leads-job github.com/la-haus/master-broker-leads/cmd/chargeLeadsJob/
+RUN GOOS=linux go build -a -tags musl -installsuffix cgo -o charge-leads-job github.com/la-haus/master-brokers-charge-leads/cmd/chargeLeadsJob/
 
 FROM 044846299318.dkr.ecr.us-east-1.amazonaws.com/alpine-golden:prod-1.1
 
@@ -20,6 +20,6 @@ WORKDIR /usr/
 
 COPY ./configs/envs.yml ./configs/
 
-COPY --from=builder /go/src/github.com/la-haus/master-broker-leads/chargeLeadsJob .
+COPY --from=builder /go/src/github.com/la-haus/master-brokers-charge-leads/cmd/chargeLeadsJob .
 
 CMD /usr/chargeLeadsJob

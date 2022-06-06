@@ -11,7 +11,7 @@ const envsPath = "./configs"
 
 type CustomerDataPlatform struct {
 	Host   string `mapstructure:"CUSTOMER_DATA_PLATFORM_HOST"`
-	ApiKey string `mapstructure:"CUSTOMER_DATA_PLATFORM_API_KEY:"`
+	ApiKey string `mapstructure:"CUSTOMER_DATA_PLATFORM_API_KEY"`
 }
 
 type Config struct {
