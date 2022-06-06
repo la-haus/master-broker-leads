@@ -9,6 +9,7 @@ import (
 
 func GetLead(linesLeads [][]string) []entity.Lead {
 	var leads []entity.Lead
+
 	for _, line := range linesLeads {
 		name := line[1]
 		email := line[2]

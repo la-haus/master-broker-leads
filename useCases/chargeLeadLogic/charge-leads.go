@@ -32,6 +32,7 @@ func (charge *chargeLeadsUseCase) ChargeLeads() {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
 	}
 	leads := serializers.GetLead(data)
+
 	for _, lead := range leads {
 		event, _ := events.GetLeadCreatioRequested(lead)
 		err := request_lead.SendEvent(event, charge.config)

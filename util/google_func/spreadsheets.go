@@ -64,7 +64,7 @@ func WriteSpreadSheet(srv *sheets.Service, spreadsheetId string, lead entity.Lea
 	} else {
 		writeRange := "leads!R" + strconv.Itoa(lead.RowNumber)
 		values := [][]interface{}{
-			{"Error en envío"},
+			{"Error"},
 		}
 		valueRange := &sheets.ValueRange{
 			Values: values,
