@@ -10,8 +10,8 @@ import (
 const envsPath = "./configs"
 
 type CustomerDataPlatform struct {
-	Host   string `mapstructure:"CUSTOMER_PLATFORM_URL"`
-	ApiKey string `mapstructure:"CUSTOMER_PLATFORM_API_KEY"`
+	Host   string `mapstructure:"CUSTOMER_DATA_PLATFORM_HOST"`
+	ApiKey string `mapstructure:"CUSTOMER_DATA_PLATFORM_API_KEY:"`
 }
 
 type Config struct {
