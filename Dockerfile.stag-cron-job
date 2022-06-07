@@ -20,6 +20,6 @@ WORKDIR /usr/
 
 COPY ./configs/envs.yml ./configs/
 
-COPY --from=builder /go/src/github.com/la-haus/master-broker-leads/first-touch-job .
+COPY --from=builder /go/src/github.com/la-haus/master-broker-leads/chargeLeadsJob .
 
-CMD /usr/first-touch-job
+CMD /usr/chargeLeadsJob
