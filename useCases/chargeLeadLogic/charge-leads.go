@@ -27,6 +27,7 @@ type chargeLeadsUseCase struct {
 
 func (charge *chargeLeadsUseCase) ChargeLeads() {
 	fmt.Println("Begin")
+	fmt.Println(charge.config.Host, charge.config.ApiKey)
 	srv := google_func.Conn()
 	fmt.Println("Connected")
 	spreadsheetId := "1bS_OYWaOApCEodQBqT6kosMKKs7llNt8hAqOdg7RKm8"
