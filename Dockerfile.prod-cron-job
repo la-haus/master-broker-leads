@@ -21,6 +21,6 @@ WORKDIR /usr/
 
 COPY ./configs/envs.yml ./configs/
 
-COPY --from=builder /go/src/github.com/la-haus/master-brokers-charge-leads/cmd/chargeLeadsJob .
+COPY --from=builder /go/src/github.com/la-haus/master-brokers-charge-leads/cmd/charge-leads-job .
 
-CMD /usr/chargeLeadsJob
+CMD /usr/charge-leads-job
