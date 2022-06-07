@@ -40,6 +40,7 @@ func (charge *chargeLeadsUseCase) ChargeLeads() {
 		event, _ := events.GetLeadCreatioRequested(lead)
 		err := request_lead.SendEvent(event, charge.config)
 		if err != nil {
+			fmt.Println("Error send event: ", err)
 			google_func.WriteSpreadSheet(srv, spreadsheetId, lead, false)
 			continue
 		}
