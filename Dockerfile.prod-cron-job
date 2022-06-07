@@ -14,6 +14,7 @@ COPY . .
 
 RUN GOOS=linux go build -a -tags musl -installsuffix cgo -o charge-leads-job github.com/la-haus/master-brokers-charge-leads/cmd/chargeLeadsJob/
 
+
 FROM 044846299318.dkr.ecr.us-east-1.amazonaws.com/alpine-golden:prod-1.1
 
 WORKDIR /usr/
