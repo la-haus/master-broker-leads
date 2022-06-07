@@ -1,6 +1,7 @@
 package charge_leads_job
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/la-haus/master-brokers-charge-leads/configs"
@@ -25,14 +26,16 @@ type chargeLeadsUseCase struct {
 }
 
 func (charge *chargeLeadsUseCase) ChargeLeads() {
-	srv := google_func.ConfigWrite()
+	fmt.Println("Begin")
+	srv := google_func.Conn()
+	fmt.Println("Connected")
 	spreadsheetId := "1bS_OYWaOApCEodQBqT6kosMKKs7llNt8hAqOdg7RKm8"
 	data, err := google_func.ReadSpreadSheet(srv, spreadsheetId)
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
 	}
 	leads := serializers.GetLead(data)
-
+	fmt.Println("Leads: ", len(leads))
 	for _, lead := range leads {
 		event, _ := events.GetLeadCreatioRequested(lead)
 		err := request_lead.SendEvent(event, charge.config)
@@ -40,6 +43,7 @@ func (charge *chargeLeadsUseCase) ChargeLeads() {
 			google_func.WriteSpreadSheet(srv, spreadsheetId, lead, false)
 			continue
 		}
+		fmt.Println("Write Spreadsheet")
 		google_func.WriteSpreadSheet(srv, spreadsheetId, lead, true)
 	}
 }
