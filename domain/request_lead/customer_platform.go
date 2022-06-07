@@ -11,7 +11,6 @@ import (
 func SendEvent(event []byte, config *configs.Config) error {
 	client := &http.Client{}
 	method := "POST"
-	//url := "https://customer-platform.staging.lahaus.com/v1/events"
 	url := config.CustomerDataPlatform.Host
 	payload := bytes.NewBuffer(event)
 	req, err := http.NewRequest(method, url, payload)
