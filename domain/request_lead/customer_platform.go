@@ -2,7 +2,6 @@ package request_lead
 
 import (
 	"bytes"
-	"fmt"
 	"net/http"
 
 	"github.com/la-haus/master-brokers-charge-leads/configs"
@@ -11,10 +10,9 @@ import (
 func SendEvent(event []byte, config *configs.Config) error {
 	client := &http.Client{}
 	method := "POST"
-	url := config.CustomerDataPlatform.Host
+	url := config.CustomerDataPlatform.Host + "/v1/events"
 	payload := bytes.NewBuffer(event)
 	req, err := http.NewRequest(method, url, payload)
-	fmt.Println(req, err)
 	if err != nil {
 		return err
 	}
@@ -22,7 +20,6 @@ func SendEvent(event []byte, config *configs.Config) error {
 	req.Header.Add("x-api-key", config.CustomerDataPlatform.ApiKey)
 
 	resp, err := client.Do(req)
-	fmt.Println(req, err)
 
 	if err != nil {
 		return err
