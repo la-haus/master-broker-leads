@@ -9,9 +9,9 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "envFile": "${workspaceFolder}/customer-platform/configs/local.env",
-            "program": "${workspaceFolder}/customer-platform/cmd/app/main.go",
-            "cwd": "${workspaceFolder}/customer-platform",
+            "envFile": "${workspaceFolder}/configs/local.env",
+            "program": "${workspaceFolder}/cmd/chargeLeadsJob/main.go",
+            "cwd": "${workspaceFolder}/",
         },
         {
             "name": "Local Debug",

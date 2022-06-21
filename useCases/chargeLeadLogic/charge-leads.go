@@ -8,6 +8,7 @@ import (
 	"github.com/la-haus/master-brokers-charge-leads/domain/events"
 	"github.com/la-haus/master-brokers-charge-leads/domain/request_lead"
 	"github.com/la-haus/master-brokers-charge-leads/domain/serializers"
+	"github.com/la-haus/master-brokers-charge-leads/domain/validator"
 	"github.com/la-haus/master-brokers-charge-leads/util/google_func"
 )
 
@@ -34,6 +35,7 @@ func (charge *chargeLeadsUseCase) ChargeLeads() {
 	}
 	leads := serializers.GetLead(data)
 	for _, lead := range leads {
+		lead.Phone = validator.ValidatePhone(lead.Phone, lead.Hub[:2], charge.config)
 		event, _ := events.GetLeadCreatioRequested(lead)
 		err := request_lead.SendEvent(event, charge.config)
 		if err != nil {
