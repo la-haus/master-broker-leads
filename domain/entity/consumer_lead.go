@@ -32,4 +32,5 @@ type Properties struct {
 	Business_hub_code string `json:"business_hub_code"`
 	Description       string `json:"description"`
 	ProjectName       string `json:"project_name"`
+	Screen_cta        string `json:"screen_cta"`
 }
