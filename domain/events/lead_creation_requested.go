@@ -23,6 +23,7 @@ func GetLeadCreatioRequested(lead entity.Lead) ([]byte, error) {
 		Business_hub_code: lead.Hub,
 		Description:       lead.Budget,
 		ProjectName:       lead.Project,
+		Screen_cta:        "LEAD_FORM",
 	}
 	leadCreationRequested := entity.LeadCreationRequested{
 		AnonymousID: uuid.NewString(),
