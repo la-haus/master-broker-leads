@@ -28,7 +28,8 @@ type chargeLeadsUseCase struct {
 
 func (charge *chargeLeadsUseCase) ChargeLeads() {
 	srv := google_func.Conn()
-	spreadsheetId := "1bS_OYWaOApCEodQBqT6kosMKKs7llNt8hAqOdg7RKm8"
+	//spreadsheetId := "1bS_OYWaOApCEodQBqT6kosMKKs7llNt8hAqOdg7RKm8"
+	spreadsheetId := "1h5i2_tSrPnFtrVYBE6UM_uf9c5CuGDdNRLpaTQAFb9s"
 	data, err := google_func.ReadSpreadSheet(srv, spreadsheetId)
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
@@ -36,8 +37,11 @@ func (charge *chargeLeadsUseCase) ChargeLeads() {
 	leads := serializers.GetLead(data)
 	for _, lead := range leads {
 		lead.Phone = validator.ValidatePhone(lead.Phone, lead.Hub[:2], charge.config)
-		event, _ := events.GetLeadCreatioRequested(lead)
-		err := request_lead.SendEvent(event, charge.config)
+		event, _ := events.GetLeadCreatioRequestedEvent(lead)
+		//err := request_lead.SendEvent(event, charge.config)
+		SegmentClient := request_lead.NewSegmentClient(charge.config)
+		defer SegmentClient.Client.Close()
+		err := SegmentClient.SendTrackLead(event)
 		if err != nil {
 			fmt.Println("Error send event: ", err)
 			google_func.WriteSpreadSheet(srv, spreadsheetId, lead, false)

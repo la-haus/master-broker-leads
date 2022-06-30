@@ -36,3 +36,32 @@ func GetLeadCreatioRequested(lead entity.Lead) ([]byte, error) {
 	request, _ := json.Marshal(leadCreationRequested)
 	return request, nil
 }
+
+func GetLeadCreatioRequestedEvent(lead entity.Lead) (entity.LeadCreationRequested, error) {
+	campaign := &entity.Campaign{
+		Medium:    lead.Medium,
+		Origin:    "SALESFORCE",
+		AdSetName: lead.AdSetName,
+	}
+	context := &entity.Context{
+		Campaign: campaign,
+	}
+	properties := entity.Properties{
+		Full_Name:         lead.Name,
+		Email:             lead.Email,
+		Phone:             lead.Phone,
+		Business_hub_code: lead.Hub,
+		Description:       lead.Budget,
+		ProjectName:       lead.Project,
+		Screen_cta:        "LEAD_FORM",
+	}
+	leadCreationRequested := entity.LeadCreationRequested{
+		AnonymousID: uuid.NewString(),
+		Event:       "Lead Creation Requested",
+		Type:        "Track",
+		ReceivedAt:  lead.CreatedAt,
+		Context:     *context,
+		Properties:  properties,
+	}
+	return leadCreationRequested, nil
+}
