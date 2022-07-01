@@ -29,11 +29,5 @@ func (sc *SegmentClient) SendTrackLead(event entity.LeadCreationRequested) error
 		Properties:  structs.ToMap(event.Properties),
 		Context:     context,
 	})
-	/* return sc.Client.Enqueue(analytics.Track{
-		Event:       "Lead Creation Requested",
-		AnonymousId: "121456864645631455646",
-		Properties:  analytics.NewProperties().Set("Full_Name", "John Doe"),
-		//Context:     &context,
-	}) */
 
 }
