@@ -10,8 +10,11 @@ import (
 const envsPath = "./configs"
 
 type CustomerDataPlatform struct {
-	Host   string `mapstructure:"CUSTOMER_DATA_PLATFORM_HOST"`
-	ApiKey string `mapstructure:"CUSTOMER_DATA_PLATFORM_API_KEY"`
+	Host                      string `mapstructure:"CUSTOMER_DATA_PLATFORM_HOST"`
+	ApiKey                    string `mapstructure:"CUSTOMER_DATA_PLATFORM_API_KEY"`
+	SegmentWritekey           string `mapstructure:"SPREADSHEET_SEGMENT_WRITE_KEY"`
+	GoogleServiceAccountEmail string `mapstructure:"GOOGLE_SERVICE_ACCOUNT_EMAIL"`
+	GoogleServiceAccountId    string `mapstructure:"GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY_ID"`
 }
 
 type Config struct {
