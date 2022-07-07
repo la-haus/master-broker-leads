@@ -9,11 +9,20 @@ import (
 	"google.golang.org/api/sheets/v4"
 )
 
-func ReadSpreadSheet(srv *sheets.Service, spreadsheetId string) ([][]string, error) {
-	//spreadsheetId := "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
+type ServiceClient struct {
+	Srv *sheets.Service
+}
+
+func NewServiceClient(srv *sheets.Service) *ServiceClient {
+	return &ServiceClient{
+		Srv: srv,
+	}
+}
+
+func (sc *ServiceClient) ReadSpreadSheet(spreadsheetId string) ([][]string, error) {
 	var tableLeads [][]string
-	readRange := "leads!K2:T"
-	resp, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
+	readRange := "leads!K2:U"
+	resp, err := sc.Srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
 	}
@@ -32,46 +41,33 @@ func ReadSpreadSheet(srv *sheets.Service, spreadsheetId string) ([][]string, err
 				medium := fmt.Sprintf("%s", row[6])
 				adSetName := fmt.Sprintf("%s", row[7])
 				budget := fmt.Sprintf("%s", row[8])
-				status := ""
-				if len(row) == 10 {
-					status = fmt.Sprintf("%s", row[9])
-				}
+				status := fmt.Sprintf("%s", row[9])
 				if status == "" {
 					tableLeads = append(tableLeads, []string{dataIsComplete, name, email, phone, hub, project, medium, status, fmt.Sprintf("%d", positionInSpreadsheet), budget, adSetName})
 				}
 
 			} else {
+				if dataIsComplete == "EMAIL INCORRECTO" {
+					continue
+				}
 				return tableLeads, nil
 			}
+
 		}
 	}
 	return tableLeads, nil
 }
 
-func WriteSpreadSheet(srv *sheets.Service, spreadsheetId string, lead entity.Lead, isSend bool) {
-	if isSend {
-		writeRange := "leads!T" + strconv.Itoa(lead.RowNumber)
-		values := [][]interface{}{
-			{"Enviado"},
-		}
-		valueRange := &sheets.ValueRange{
-			Values: values,
-		}
-		_, err := srv.Spreadsheets.Values.Update(spreadsheetId, writeRange, valueRange).ValueInputOption("RAW").Do()
-		if err != nil {
-			log.Fatalf("Unable to retrieve data from sheet: %v", err)
-		}
-	} else {
-		writeRange := "leads!R" + strconv.Itoa(lead.RowNumber)
-		values := [][]interface{}{
-			{"Error"},
-		}
-		valueRange := &sheets.ValueRange{
-			Values: values,
-		}
-		_, err := srv.Spreadsheets.Values.Update(spreadsheetId, writeRange, valueRange).ValueInputOption("RAW").Do()
-		if err != nil {
-			log.Fatalf("Unable to retrieve data from sheet: %v", err)
-		}
+func (sc *ServiceClient) WriteSpreadSheet(spreadsheetId string, lead entity.Lead, col string, message string) {
+	writeRange := "leads!" + col + strconv.Itoa(lead.RowNumber)
+	values := [][]interface{}{
+		{message},
+	}
+	valueRange := &sheets.ValueRange{
+		Values: values,
+	}
+	_, err := sc.Srv.Spreadsheets.Values.Update(spreadsheetId, writeRange, valueRange).ValueInputOption("RAW").Do()
+	if err != nil {
+		log.Fatalf("Unable to retrieve data from sheet: %v", err)
 	}
 }

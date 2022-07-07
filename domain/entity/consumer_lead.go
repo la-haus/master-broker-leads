@@ -14,16 +14,16 @@ type Context struct {
 	Campaign *Campaign `json:"campaign"`
 }
 type Campaign struct {
-	Medium    string `json:"medium"`
-	Origin    string `json:"origin"`
-	AdSetName string `json:"adset_name"`
+	Medium    string `json:"medium,omitempty"`
+	Origin    string `json:"origin,omitempty"`
+	AdSetName string `json:"adset_name,omitempty"`
 }
 type Properties struct {
-	Full_Name         string `json:"full_name"`
+	Full_Name         string `json:"full_name,omitempty"`
 	Email             string `json:"email"`
-	Phone             string `json:"phone"`
+	Phone             string `json:"phone,omitempty"`
 	Business_hub_code string `json:"business_hub_code"`
-	Description       string `json:"description"`
-	ProjectName       string `json:"project_name"`
+	Description       string `json:"description,omitempty"`
+	ProjectName       string `json:"project_name,omitempty"`
 	Screen_cta        string `json:"screen_cta"`
 }
