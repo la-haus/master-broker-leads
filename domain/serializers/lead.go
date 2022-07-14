@@ -1,6 +1,7 @@
 package serializers
 
 import (
+	"log"
 	"strconv"
 	"time"
 
@@ -34,9 +35,49 @@ func GetLead(linesLeads [][]string) []entity.Lead {
 				RowNumber: rowNumber,
 				Budget:    budget,
 				AdSetName: adSetName,
+				Origin:    "SALESFORCE",
 			}
 			leads = append(leads, lead)
 		}
+	}
+	return leads
+}
+
+func GetLeadsChargeLeads(linesLeads [][]string) []entity.Lead {
+	var leads []entity.Lead
+
+	for _, line := range linesLeads {
+		rowNumber, err := strconv.Atoi(line[22])
+		if err != nil {
+			log.Fatal(err)
+		}
+		created_at := time.Now()
+		lead := entity.Lead{
+			CreatedAt:                    created_at,
+			Name:                         line[1],
+			Email:                        line[2],
+			Phone:                        line[3],
+			Hub:                          line[4],
+			LocationOfInterestCodes:      line[5],
+			Project:                      line[6],
+			ProjectId:                    line[7],
+			Source:                       line[8],
+			Medium:                       line[9],
+			CampaignName:                 line[10],
+			CampaignId:                   line[11],
+			AdSetName:                    line[12],
+			AdSetId:                      line[13],
+			AdName:                       line[14],
+			AdId:                         line[15],
+			Budget:                       line[16],
+			Monthly_payment:              line[17],
+			Expected_purchase_time:       line[18],
+			Purchase_purpose:             line[19],
+			Preferred_property_condition: line[20],
+			Status:                       line[21],
+			RowNumber:                    rowNumber,
+		}
+		leads = append(leads, lead)
 	}
 	return leads
 }
