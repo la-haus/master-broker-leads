@@ -33,4 +33,5 @@ type Lead struct {
 	ExpectedPeriod               ExpectedPeriod `json:"expected_period,omitempty"`
 	Monthly_payment_budget       float64        `json:"monthly_payment_budget,omitempty"`
 	RowNumber                    int
+	AnonymousID                  string `json:"anonymous_id,omitempty"`
 }

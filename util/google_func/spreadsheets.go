@@ -78,7 +78,7 @@ func (sc *ServiceClient) ReadSpreadSheetChargeLeads(spreadsheetId string) ([][]s
 	const continueWithoutEmail = "EMAIL INCORRECTO"
 
 	var tableLeads [][]string
-	readRange := "leads!W2:AS"
+	readRange := "leads!X2:AU"
 	resp, err := sc.Srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
@@ -113,8 +113,9 @@ func (sc *ServiceClient) ReadSpreadSheetChargeLeads(spreadsheetId string) ([][]s
 				preferred_property_condition := fmt.Sprintf("%s", row[20])
 
 				status := fmt.Sprintf("%s", row[21])
+				id := fmt.Sprintf("%s", row[22])
 				if status == "" {
-					tableLeads = append(tableLeads, []string{dataIsComplete, name, email, phone, hub, location_of_interest_codes, project, projectId, source, medium, campaignName, campaignId, adSetName, adSetId, adName, adId, budget, monthly_payment_budget, expected_purchase_time, purchase_purpose, preferred_property_condition, status, fmt.Sprintf("%d", positionInSpreadsheet)})
+					tableLeads = append(tableLeads, []string{dataIsComplete, name, email, phone, hub, location_of_interest_codes, project, projectId, source, medium, campaignName, campaignId, adSetName, adSetId, adName, adId, budget, monthly_payment_budget, expected_purchase_time, purchase_purpose, preferred_property_condition, status, fmt.Sprintf("%d", positionInSpreadsheet), id})
 				}
 
 			} else {

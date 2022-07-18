@@ -76,6 +76,7 @@ func GetLeadsChargeLeads(linesLeads [][]string) []entity.Lead {
 			Preferred_property_condition: line[20],
 			Status:                       line[21],
 			RowNumber:                    rowNumber,
+			AnonymousID:                  line[23],
 		}
 		leads = append(leads, lead)
 	}

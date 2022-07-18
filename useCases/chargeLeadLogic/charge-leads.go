@@ -3,6 +3,7 @@ package charge_leads_job
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/la-haus/master-brokers-charge-leads/configs"
 	"github.com/la-haus/master-brokers-charge-leads/domain/events"
@@ -78,11 +79,13 @@ func (charge *chargeLeadsUseCase) sendLeadsChargeLeads(ServiceClient *google_fun
 		err := SegmentClient.SendTrackLead(event)
 		if err != nil {
 			fmt.Println("Error send event: ", err)
-			ServiceClient.WriteSpreadSheet(spreadsheetId, lead, "AR", "Error", "leads")
+			ServiceClient.WriteSpreadSheet(spreadsheetId, lead, "AS", "Error", "leads")
 			continue
 		}
-		ServiceClient.WriteSpreadSheet(spreadsheetId, lead, "AR", "Enviado", "leads")
+
+		ServiceClient.WriteSpreadSheet(spreadsheetId, lead, "AS", "Enviado", "leads")
+		time.Sleep(2 * time.Second)
 		createdAtLead := lead.CreatedAt.String()
-		ServiceClient.WriteSpreadSheet(spreadsheetId, lead, "v", createdAtLead, "leads")
+		ServiceClient.WriteSpreadSheet(spreadsheetId, lead, "W", createdAtLead, "leads")
 	}
 }

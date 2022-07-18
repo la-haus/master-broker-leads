@@ -56,6 +56,11 @@ func GetLeadCreatioRequestedEvent(lead entity.Lead) (entity.LeadCreationRequeste
 	if lead.LocationOfInterestCodes != "" {
 		LocationOfInterestCodes = []string{lead.LocationOfInterestCodes}
 	}
+
+	anonimousID := uuid.NewString()
+	if lead.AnonymousID == "" {
+		lead.AnonymousID = anonimousID
+	}
 	properties := entity.Properties{
 		Full_Name:                  lead.Name,
 		Email:                      lead.Email,
@@ -66,8 +71,8 @@ func GetLeadCreatioRequestedEvent(lead entity.Lead) (entity.LeadCreationRequeste
 		LocationOfInterestCodes:    LocationOfInterestCodes,
 		MarketingChannel:           lead.MarketingChannel,
 		ListingId:                  lead.ProjectId,
-		SourcePlatform:             lead.SourcePlatform,
-		Screen:                     lead.Screen,
+		SourcePlatform:             "SPREADSHEET",
+		Screen:                     "SPREADSHEET_LEADS",
 		MonthlyPaymentBudget:       lead.Monthly_payment_budget,
 		BudgetMax:                  lead.BudgetResponse.Max,
 		BudgetMin:                  lead.BudgetResponse.Min,
@@ -79,7 +84,7 @@ func GetLeadCreatioRequestedEvent(lead entity.Lead) (entity.LeadCreationRequeste
 		PurchasePurpose:            lead.Purchase_purpose,
 	}
 	leadCreationRequested := entity.LeadCreationRequested{
-		AnonymousID:       uuid.NewString(),
+		AnonymousID:       lead.AnonymousID,
 		Event:             "Lead Creation Requested",
 		Type:              "Track",
 		ReceivedAt:        lead.CreatedAt,
@@ -89,32 +94,3 @@ func GetLeadCreatioRequestedEvent(lead entity.Lead) (entity.LeadCreationRequeste
 	}
 	return leadCreationRequested, nil
 }
-
-/* func GetLeadCreatioRequestedEventChargeLeads(lead entity.Lead) (entity.LeadCreationRequested, error) {
-	campaign := &entity.Campaign{
-		Medium:    lead.Medium,
-		Origin:    "SALESFORCE",
-		AdSetName: lead.AdSetName,
-	}
-	context := &entity.Context{
-		Campaign: campaign,
-	}
-	properties := entity.Properties{
-		Full_Name:         lead.Name,
-		Email:             lead.Email,
-		Phone:             lead.Phone,
-		Business_hub_code: lead.Hub,
-		Description:       lead.Budget,
-		ProjectName:       lead.Project,
-		Screen_cta:        "LEAD_FORM",
-	}
-	leadCreationRequested := entity.LeadCreationRequested{
-		AnonymousID: uuid.NewString(),
-		Event:       "Lead Creation Requested",
-		Type:        "Track",
-		ReceivedAt:  lead.CreatedAt,
-		Context:     *context,
-		Properties:  properties,
-	}
-	return leadCreationRequested, nil
-} */
