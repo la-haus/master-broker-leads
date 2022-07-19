@@ -73,7 +73,7 @@ func GetLeadCreatioRequestedEvent(lead entity.Lead) (entity.LeadCreationRequeste
 		ListingId:                  lead.ProjectId,
 		SourcePlatform:             "SPREADSHEET",
 		Screen:                     "SPREADSHEET_LEADS",
-		MonthlyPaymentBudget:       lead.Monthly_payment_budget,
+		MonthlyPaymentBudgetMax:    lead.Monthly_payment_budget,
 		BudgetMax:                  lead.BudgetResponse.Max,
 		BudgetMin:                  lead.BudgetResponse.Min,
 		BudgetCurrency:             lead.BudgetResponse.Currency,
