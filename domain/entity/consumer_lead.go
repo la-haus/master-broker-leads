@@ -47,6 +47,7 @@ type Properties struct {
 	BudgetMin                  float64  `json:"budget_min,omitempty"`
 	BudgetCurrency             string   `json:"budget_currency,omitempty"`
 	MonthlyPaymentBudget       float64  `json:"monthly_payment_budget,omitempty"`
+	MonthlyPaymentBudgetMax    float64  `json:"monthly_payment_budget_max,omitempty"`
 	PreferredPropertyCondition string   `json:"preferred_property_condition,omitempty"`
 	PurchasePurpose            string   `json:"purchase_purpose,omitempty"`
 }
