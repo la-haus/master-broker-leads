@@ -22,6 +22,7 @@ func GetLead(linesLeads [][]string) []entity.Lead {
 		rowNumber, _ := strconv.Atoi(line[8])
 		budget := line[9]
 		adSetName := line[10]
+		listing_id := line[11]
 		if status == "" {
 			created_at := time.Now()
 			lead := entity.Lead{
@@ -36,6 +37,7 @@ func GetLead(linesLeads [][]string) []entity.Lead {
 				Budget:    budget,
 				AdSetName: adSetName,
 				Origin:    "SALESFORCE",
+				ProjectId: listing_id,
 			}
 			leads = append(leads, lead)
 		}

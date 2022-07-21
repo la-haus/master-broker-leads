@@ -21,7 +21,7 @@ func NewServiceClient(srv *sheets.Service) *ServiceClient {
 
 func (sc *ServiceClient) ReadSpreadSheet(spreadsheetId string) ([][]string, error) {
 	var tableLeads [][]string
-	readRange := "leads!K2:U"
+	readRange := "leads!K2:V"
 	resp, err := sc.Srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
@@ -42,8 +42,9 @@ func (sc *ServiceClient) ReadSpreadSheet(spreadsheetId string) ([][]string, erro
 				adSetName := fmt.Sprintf("%s", row[7])
 				budget := fmt.Sprintf("%s", row[8])
 				status := fmt.Sprintf("%s", row[9])
+				listing_id := fmt.Sprintf("%s", row[10])
 				if status == "" {
-					tableLeads = append(tableLeads, []string{dataIsComplete, name, email, phone, hub, project, medium, status, fmt.Sprintf("%d", positionInSpreadsheet), budget, adSetName})
+					tableLeads = append(tableLeads, []string{dataIsComplete, name, email, phone, hub, project, medium, status, fmt.Sprintf("%d", positionInSpreadsheet), budget, adSetName, listing_id})
 				}
 
 			} else {
